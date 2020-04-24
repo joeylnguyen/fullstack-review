@@ -2,9 +2,16 @@ const express = require('express');
 let app = express();
 
 app.use(express.static(__dirname + '/../client/dist'));
+app.use(express.urlencoded());
+app.use((req, res, next)=> {
+  console.log(`Incoming ${req.method} request to ${req.path}`);
+  next();
+})
 
 app.post('/repos', function (req, res) {
   // TODO - your code here!
+  console.log(`Incoming data: `, req.body);
+  res.send(`Hi! Here's your data!`);
   // This route should take the github username provided
   // and get the repo information from the github API, then
   // save the repo information in the database

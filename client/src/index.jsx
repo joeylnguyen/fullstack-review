@@ -7,7 +7,7 @@ import RepoList from './components/RepoList.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       repos: []
     }
 
@@ -15,7 +15,15 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
-    // TODO
+    // TODO Send an http get request to github api
+    $.ajax({
+      type: "POST",
+      url: 'http://localhost:1128/repos',
+      data: {username: term},
+      success: data => console.log(data),
+      error: error => console.log(error)
+    });
+
   }
 
   render () {
