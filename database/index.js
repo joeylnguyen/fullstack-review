@@ -7,7 +7,7 @@ let repoSchema = mongoose.Schema({
   repo_owner: String, // owner.login
   repo_owner_url: String, // ownerurl
   repo_url: String, // html_url
-  repo_id: Number, // id
+  repo_id: {type: Number, unique: true},// id
   fork_count: Number // forks
 });
 
@@ -24,13 +24,14 @@ let save = (repos, res) => {
       fork_count: repo["forks"]
     }
   ));
-  Repo.insertMany(repoData, (error) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.status(201).send(`Posted user's repos to database!`);
-    }
-  });
+
+    Repo.insertMany(repoData, error => {
+      if (error) {
+        res.status(500).send(error);
+      } else {
+        res.status(201).send(`Posted user's repos to database!`);
+      }
+    });
 }
 
 module.exports.save = save;
