@@ -15,8 +15,8 @@ const RepoList = ({repos, count}) => {
 
   return (
   <div>
-    {repoList}
     There are {count} repos.
+    {repoList}
   </div>
   )
 }

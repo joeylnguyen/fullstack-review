@@ -13,7 +13,7 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema); // model
 
-let save = (repos, res) => {
+let save = (repos, callback) => {
   const repoData = repos.map(repo => (
     {
       repo_name: repo["name"],
@@ -27,25 +27,25 @@ let save = (repos, res) => {
 
   Repo.createIndexes({repo_id: Number, unique: true});
 
-  Repo.insertMany(repoData, error => {
+  Repo.insertMany(repoData, (error, results) => {
       if (error) {
-        res.status(500).send(error);
+        callback(error)
       } else {
-        res.status(201).send(`Posted user's repos to database!`);
+        callback(null, results)
       }
     });
 }
 
-let getRepos = (res) => {
+let getRepos = (callback) => {
   Repo.find({}, (error, repos) => {
     if (error) {
-      res.status(500).send(error);
+      callback(error);
     } else {
       Repo.count({}, (error, count) => {
         if (error) {
-          res.status(500).send(error)
+          callback(error);
         } else {
-          res.status(200).send({repos: repos, count: count})
+          callback(null, {repos: repos, count: count});
         }
       })
     }
