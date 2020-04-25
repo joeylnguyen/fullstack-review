@@ -17,7 +17,7 @@ class App extends React.Component {
     console.log(`${term} was searched`);
     // TODO Send an http get request to github api
     $.ajax({
-      type: "POST",
+      type: 'POST',
       url: 'http://localhost:1128/repos',
       data: {username: term},
       success: data => console.log(data),
