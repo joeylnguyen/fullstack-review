@@ -41,10 +41,17 @@ let getRepos = (res) => {
     if (error) {
       res.status(500).send(error);
     } else {
-      res.status(200).send(repos);
+      Repo.count({}, (error, count) => {
+        if (error) {
+          res.status(500).send(error)
+        } else {
+          res.status(200).send({repos: repos, count: count})
+        }
+      })
     }
   }).sort({ fork_count : -1 }).limit(25);
 }
+
 
 module.exports = {
   save: save,

@@ -8,10 +8,12 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      repos: []
+      repos: [],
+      count: 0
     }
     this.getRepos = this.getRepos.bind(this);
     this.addToRepos = this.addToRepos.bind(this);
+    this.updateCount = this.updateCount.bind(this);
   }
 
   search (term) {
@@ -21,20 +23,19 @@ class App extends React.Component {
       type: 'POST',
       url: 'http://localhost:1128/repos',
       data: {username: term},
-      success: this.getRepos(),
+      success: () => console.log('Success!'),
       error: error => console.log(error)
-    });
+    }).done(this.getRepos);
   }
-  // TODO Get request is happening first before data can come back from post...
+
   getRepos () {
     console.log(`Loading top repos...`);
     $.ajax({
       type: 'GET',
       url: 'http://localhost:1128/repos',
       success: data => {
-        this.setState({
-          repos: data
-        })
+        this.addToRepos(data.repos);
+        this.updateCount(data.count);
       },
       error: error => console.log(error)
     });
@@ -47,6 +48,12 @@ class App extends React.Component {
     console.log('Repos:', this.state.repos);
   }
 
+  updateCount (count) {
+    this.setState({
+      count: count
+    })
+  }
+
   componentDidMount () {
     this.getRepos();
   }
@@ -54,7 +61,7 @@ class App extends React.Component {
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
+      <RepoList repos={this.state.repos} count={this.state.count}/>
       <Search onSearch={this.search.bind(this)}/>
     </div>)
   }

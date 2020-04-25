@@ -2,7 +2,7 @@ import React from 'react';
 import Repo from './Repo.jsx';
 
 
-const RepoList = ({repos}) => {
+const RepoList = ({repos, count}) => {
   const repoList = repos.map(repo =>
     <Repo
       name={repo.repo_name}
@@ -16,7 +16,7 @@ const RepoList = ({repos}) => {
   return (
   <div>
     {repoList}
-    There are {repos.length} repos.
+    There are {count} repos.
   </div>
   )
 }

@@ -3,14 +3,17 @@ import React from 'react';
 const Repo = ({name, repoURL, owner, ownerURL, forkCount}) => {
   return (
     <div style={{borderStyle: 'solid', borderWidth: '1px'}}>
-      <h4>
+      <div>
         Repository:
         <a href={repoURL}> {name}</a>
-      </h4>
-      <h5>
+      </div>
+      <div>
         By:
         <a href={ownerURL}> {owner}</a>
-      </h5>
+      </div>
+      <div>
+        Forks: {forkCount}
+      </div>
     </div>
   )
 }
