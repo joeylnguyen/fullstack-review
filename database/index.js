@@ -25,7 +25,9 @@ let save = (repos, res) => {
     }
   ));
 
-    Repo.insertMany(repoData, error => {
+  Repo.createIndexes({repo_id: Number, unique: true});
+
+  Repo.insertMany(repoData, error => {
       if (error) {
         res.status(500).send(error);
       } else {
@@ -34,4 +36,17 @@ let save = (repos, res) => {
     });
 }
 
-module.exports.save = save;
+let getRepos = (res) => {
+  Repo.find({}, (error, repos) => {
+    if (error) {
+      res.status(500).send(error);
+    } else {
+      res.status(200).send(repos);
+    }
+  }).sort({ fork_count : -1 }).limit(25);
+}
+
+module.exports = {
+  save: save,
+  getRepos: getRepos
+}

@@ -1,5 +1,5 @@
 const express = require('express');
-const {getUserRepos} = require('./controller.js')
+const {getReposByUsername, getMostForkedRepos} = require('../helpers/model.js');
 let app = express();
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -12,7 +12,7 @@ app.use((req, res, next)=> {
 app.post('/repos', function (req, res) {
   // TODO - your code here!
   console.log(`Incoming data: `, req.body);
-  getUserRepos(req.body.username, res);
+  getReposByUsername(req.body.username, res);
   // This route should take the github username provided
   // and get the repo information from the github API, then
   // save the repo information in the database
@@ -21,6 +21,7 @@ app.post('/repos', function (req, res) {
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
+  getMostForkedRepos(res);
 });
 
 let port = 1128;

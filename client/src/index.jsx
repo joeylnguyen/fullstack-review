@@ -10,7 +10,8 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
-
+    this.getRepos = this.getRepos.bind(this);
+    this.addToRepos = this.addToRepos.bind(this);
   }
 
   search (term) {
@@ -20,10 +21,34 @@ class App extends React.Component {
       type: 'POST',
       url: 'http://localhost:1128/repos',
       data: {username: term},
-      success: data => console.log(data),
+      success: this.getRepos(),
       error: error => console.log(error)
     });
+  }
+  // TODO Get request is happening first before data can come back from post...
+  getRepos () {
+    console.log(`Loading top repos...`);
+    $.ajax({
+      type: 'GET',
+      url: 'http://localhost:1128/repos',
+      success: data => {
+        this.setState({
+          repos: data
+        })
+      },
+      error: error => console.log(error)
+    });
+  }
 
+  addToRepos (repos) {
+    this.setState({
+      repos: repos
+    })
+    console.log('Repos:', this.state.repos);
+  }
+
+  componentDidMount () {
+    this.getRepos();
   }
 
   render () {

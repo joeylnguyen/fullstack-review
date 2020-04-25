@@ -1,11 +1,7 @@
-const {save} = require('../database/index.js');
+const {save, getRepos} = require('../database/index.js');
 const request = require('request');
 const config = require('../config.js');
 
-const saveUserRepos = (repos, res) => {
-  // Save repos to db
-  // save(repos, res)
-}
 
 let getReposByUsername = (username, res) => {
   // TODO - Use the request module to request repos for a specific
@@ -32,4 +28,11 @@ let getReposByUsername = (username, res) => {
   })
 }
 
-module.exports.getReposByUsername = getReposByUsername;
+let getMostForkedRepos = res => {
+  getRepos(res);
+}
+
+module.exports = {
+  getReposByUsername:getReposByUsername,
+  getMostForkedRepos: getMostForkedRepos
+}
