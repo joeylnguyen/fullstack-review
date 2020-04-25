@@ -37,7 +37,7 @@ let save = (repos, callback) => {
 }
 
 let getRepos = (callback) => {
-  Repo.find({}, (error, repos) => {
+  Repo.find({}).sort({ fork_count : -1 }).limit(25).exec((error, repos) => {
     if (error) {
       callback(error);
     } else {
@@ -47,9 +47,9 @@ let getRepos = (callback) => {
         } else {
           callback(null, {repos: repos, count: count});
         }
-      })
+      });
     }
-  }).sort({ fork_count : -1 }).limit(25);
+  });
 }
 
 
