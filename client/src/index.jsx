@@ -18,7 +18,6 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
-    // TODO Send an http get request to github api
     $.ajax({
       type: 'POST',
       url: 'http://localhost:1128/repos',
@@ -45,7 +44,6 @@ class App extends React.Component {
     this.setState({
       repos: repos
     })
-    console.log('Repos:', this.state.repos);
   }
 
   updateCount (count) {

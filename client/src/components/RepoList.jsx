@@ -20,5 +20,4 @@ const RepoList = ({repos, count}) => {
   </div>
   )
 }
-//TODO counter only counts 25
 export default RepoList;
