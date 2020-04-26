@@ -29,10 +29,9 @@ let save = (repos, callback) => {
 
   Repo.insertMany(repoData, (error, results) => {
       if (error) {
-        callback(error)
-      } else {
-        callback(null, results)
+        callback(error);
       }
+      callback(null, results);
     });
 }
 
@@ -40,18 +39,15 @@ let getRepos = (callback) => {
   Repo.find({}).sort({ fork_count : -1 }).limit(25).exec((error, repos) => {
     if (error) {
       callback(error);
-    } else {
-      Repo.count({}, (error, count) => {
-        if (error) {
-          callback(error);
-        } else {
-          callback(null, {repos: repos, count: count});
-        }
-      });
     }
+    Repo.count({}, (error, count) => {
+      if (error) {
+        callback(error);
+      }
+      callback(null, {repos: repos, count: count});
+    });
   });
 }
-
 
 module.exports = {
   save: save,
